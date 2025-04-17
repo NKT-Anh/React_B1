@@ -13,8 +13,24 @@ import { useNavigation } from '@react-navigation/native';
 const DangNhap = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const correctPassword = "1*123a";
   const [showPassword , setShowPassword] = useState(false);
-
+  const navigation = useNavigation();
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d).{4,}$/;
+    return regex.test(password);
+  };
+  const handleLogin = () => {
+    if (!validatePassword(password)) {
+      Alert.alert('Lỗi', 'Mật khẩu phải có ít nhất 4 ký tự và bao gồm cả chữ cái và số.');
+      return;
+    }
+    else if( password !== correctPassword){
+      Alert.alert('Lỗi', 'Email hoặc mật khẩu không chính xác.');
+      return;
+    }
+    Alert.alert('Thành công', 'Đăng nhập thành công');
+  };
   return (
     <View style={{ flex: 1 }}>
 
@@ -64,19 +80,15 @@ const DangNhap = () => {
             />
             </View>
             
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={() => navigation.navigate('ForgetPassword') }>
             <View >
               <Text style={styles.forgotPassword}>Quên mật khẩu?</Text>
             </View>
             </TouchableOpacity>
             
             <TouchableOpacity
-            onPress={()=> 
-              {Alert.alert(
-                "Thông tin đăng nhập",
-                `Email: ${email}\nMật khẩu: ${password}`,
-                [{ text: "OK" }]
-              );}}
+            onPress={handleLogin}
             style={styles.loginButton}>
               <Text style={styles.loginText}>Đăng nhập</Text>
             </TouchableOpacity>
@@ -94,6 +106,14 @@ const DangNhap = () => {
             <AntDesign name="facebook-square" size={24} color="blue" />
             </TouchableOpacity>
             </View>
+
+            <View style={{width:'100%',borderWidth:1,}}></View>
+            <TouchableOpacity onPress={()=> navigation.navigate('DangKy')}>
+              <Text style={styles.registerText}>
+                Chưa có tài khoản? <Text style={styles.boldText}>Đăng ký ngay</Text>
+              </Text>
+            </TouchableOpacity>
+
           </View>
           </View>
         </TouchableWithoutFeedback>
