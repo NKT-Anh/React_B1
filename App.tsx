@@ -1,9 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import RootNavigation from './RootNavigation';
-export default function App() {
-  return (
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Todo from './src/Buoi5/Todo';
+import TodoDetail from './src/Buoi5/TodoDetail';
 
-      <RootNavigation/>
-  );
+const Stack = createStackNavigator();
+
+export default function App() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Todo">
+                <Stack.Screen name="Todo" component={Todo} />
+                <Stack.Screen name="TodoDetail" component={TodoDetail} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
